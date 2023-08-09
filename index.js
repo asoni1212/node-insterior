@@ -1,18 +1,21 @@
 import express from "express";
-import mysql from "mysql2";
+import mysql from "mysql";
 import cors from "cors";
+import dotenv from "dotenv";
+import morgan from "morgan";
 
 const app = express();
-
+dotenv.config();
 const db = mysql.createConnection({
-    host: 'localhost', // Replace with your database host name or IP address
-    user: 'root',      // Replace with your database username
-    password: '@Suman1212',  // Replace with your database password
-    database: 'insterior_db'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
 })
 
 app.use(express.json());
 app.use(cors());
+app.use(morgan('dev'))
 
 app.get("/", (req,res)=>{
     res.json("Hello I am db")
@@ -35,6 +38,7 @@ app.post("/user", (req,res)=>{
     })
 })
 
-app.listen(8806, () => {
-    console.log("congratulations we are connected")
+app.listen(process.env.PORT, () => {
+    console.log("congratulations we are connected ", );
+
 })
