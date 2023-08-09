@@ -38,7 +38,7 @@ app.post("/user", (req,res)=>{
     })
 })
 
-app.listen(process.env.PORT, () => {
-    console.log("congratulations we are connected ", );
+app.listen(8080, () => {
+    console.log("congratulations we are connected 8080" );
 
 })
