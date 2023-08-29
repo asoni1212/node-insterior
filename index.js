@@ -1,44 +1,45 @@
 import express from "express";
-import mysql from "mysql";
 import cors from "cors";
-import dotenv from "dotenv";
 import morgan from "morgan";
-
+import { getTestData } from "./app/controllers/testController.js";
+import userRoutes from "./app/routes/userRoutes.js";
+import authRoutes from "./app/routes/authRoutes.js";
+import { ApolloServer } from "apollo-server-express";
+import userSchema from "./appGraphql/graphql/schemas/user.js";
+import userResolvers from "./appGraphql/resolvers/userResolvers.js";
+import { graphqlHTTP } from "express-graphql";
 const app = express();
-dotenv.config();
-const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE
-})
-
 app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-app.use(morgan('dev'))
+app.use(morgan('dev'));
 
-app.get("/", (req,res)=>{
-    res.json("Hello I am db")
-})
+// app.get("/", getTestData);
+app.use("/user", userRoutes);
+app.use("/auth", authRoutes);
 
-app.get("/user", (req,res)=>{
-    const q = "SELECT * FROM users"
-    db.query(q,(err,data)=>{
-       if (err) return res.json(err);
-        return res.json(data)
-    });
-});
-
-app.post("/user", (req,res)=>{
-    const qPost = 'INSERT INTO users (`username`, `password`) VALUES (?,?)';
-    const values = [req.body.username,req.body.password];
-    db.query(qPost,values,(err,data) => {
-        if (err) return res.json(err);
-        return res.json(data)
-    })
-})
-
+// const server = new ApolloServer({
+//     typeDefs: userSchema,
+//     resolvers: userResolvers
+//   });
+//   app.use('/graphql', graphqlHTTP({
+//     schema: userSchema,
+//     rootValue: userResolvers,
+//     graphiql: true
+// }));
 app.listen(8080, () => {
-    console.log("congratulations we are connected 8080" );
+ console.log("congratulations we are connected 8080");
+});
+//   async function startApolloServer() {
+//     await server.start();
+  
+//     server.applyMiddleware({ app });
+  
+//     app.listen(8080, () => {
+//         console.log("congratulations we are connected");
+    
+//     })
+//   }
+  
+//   startApolloServer();
 
-})
