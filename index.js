@@ -1,13 +1,8 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import { getTestData } from "./app/controllers/testController.js";
 import userRoutes from "./app/routes/userRoutes.js";
 import authRoutes from "./app/routes/authRoutes.js";
-import { ApolloServer } from "apollo-server-express";
-import userSchema from "./appGraphql/graphql/schemas/user.js";
-import userResolvers from "./appGraphql/resolvers/userResolvers.js";
-import { graphqlHTTP } from "express-graphql";
 const app = express();
 app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));
