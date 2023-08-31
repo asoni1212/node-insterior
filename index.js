@@ -3,6 +3,7 @@ import cors from "cors";
 import morgan from "morgan";
 import userRoutes from "./app/routes/userRoutes.js";
 import authRoutes from "./app/routes/authRoutes.js";
+import https from "https";
 const app = express();
 app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));
@@ -22,7 +23,8 @@ app.use("/auth", authRoutes);
 //     rootValue: userResolvers,
 //     graphiql: true
 // }));
-app.listen(8080, () => {
+https
+  .createServer(app).listen(8080, () => {
  console.log("congratulations we are connected 8080");
 });
 //   async function startApolloServer() {
